@@ -63,7 +63,6 @@ jobs:
       
     - name: deploy to S3
       run: |
-        aws s3 rm s3://book-manage/ --recursive
         aws s3 cp build s3://book-manage/ --recursive
       env:
         AWS_DEFAULT_REGION: ap-southeast-2
