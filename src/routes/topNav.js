@@ -1,11 +1,11 @@
 import React from 'react';
-import { Link, withRouter } from 'react-router-dom';
+import { NavLink, withRouter } from 'react-router-dom';
 
 const TopNav = () => {
   return(
     <nav>
-      <Link to='/'>login</Link>
-      <Link to='/orders'>order</Link>
+      <NavLink to='/'>login</NavLink>
+      <NavLink to='/orders'>order</NavLink>
     </nav>
   )
 }
