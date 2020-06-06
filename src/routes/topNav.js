@@ -4,10 +4,10 @@ import { NavLink, withRouter } from 'react-router-dom';
 const TopNav = () => {
   return(
     <nav>
-      <NavLink to='/'>login</NavLink>
+      <NavLink to='/login'>login</NavLink>
       <NavLink to='/orders'>order</NavLink>
     </nav>
   )
 }
 
-export default withRouter(TopNav);
+export default TopNav;
