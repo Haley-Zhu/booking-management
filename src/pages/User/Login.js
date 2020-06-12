@@ -1,8 +1,9 @@
 import React, { Component } from "react";
 import { Form, Input, Button, Checkbox } from "antd";
 import { UserOutlined, LockOutlined } from "@ant-design/icons";
-import { Link } from 'react-router-dom';
+import { Link } from "react-router-dom";
 import { connect } from "react-redux";
+import { actions } from './store'
 
 class Login extends Component {
   constructor(props) {
@@ -11,11 +12,21 @@ class Login extends Component {
       isLoading: false,
     };
   }
+  handleFinish = (values) => {
+    this.props.saveLoginInfo(values);
+  };
+  onFinishFailed = (errorInfo) => {
+    console.log("errorInfo", errorInfo);
+  };
   render() {
     return (
-      <Form id="login-form">
+      <Form
+        onFinish={this.handleFinish}
+        onFinishFailed={this.onFinishFailed}
+        id="login-form"
+      >
         <Form.Item
-          name="userName"
+          name="username"
           rules={[
             {
               required: true,
@@ -47,9 +58,7 @@ class Login extends Component {
           <Form.Item name="remember" valuePropName="checked" noStyle>
             <Checkbox>Remember me</Checkbox>
           </Form.Item>
-          <Link className="login-form-forgot" >
-            Forgot password
-          </Link>
+          <Link className="login-form-forgot">Forgot password</Link>
         </Form.Item>
         <Form.Item>
           <Button
@@ -66,4 +75,10 @@ class Login extends Component {
   }
 }
 
-export default Login;
+const mapDispatch = (dispatch) => ({
+  saveLoginInfo: (loginInfo) => {
+      dispatch(actions.saveLoginInfo(loginInfo));
+  }
+});
+
+export default connect(null, mapDispatch)(Login)

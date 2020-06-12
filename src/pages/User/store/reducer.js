@@ -1,7 +1,8 @@
 import { actionType } from './index';
 const initialState = {
-  email: "",
+  username: "",
   password: "",
+  remember: ""
 };
 
 const reducer = (state = initialState, action) => {
@@ -10,7 +11,7 @@ const reducer = (state = initialState, action) => {
     case actionType.SAVE_LOGIN_INFO:
       newState = {
         ...state,
-        payload: action.payload,
+        ...action.payload
       };
       break;
     default:
