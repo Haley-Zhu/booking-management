@@ -1,8 +1,8 @@
-const initialState = {};
+import { combineReducers } from 'redux';
+import { reducer as userReducer } from '../pages/User/store';
 
-const reducer = (state = initialState, action) => {
-  let newState = state;
-  return newState;
-}
+const reducer = combineReducers({
+  userReducer
+});
 
 export default reducer;

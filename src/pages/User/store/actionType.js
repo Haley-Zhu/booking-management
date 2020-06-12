@@ -1,0 +1,1 @@
+export const SAVE_LOGIN_INFO = 'save_login_info';
