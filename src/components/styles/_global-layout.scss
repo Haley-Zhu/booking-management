@@ -1,0 +1,13 @@
+#global-layout {
+  .global-layout {
+    &__sider {
+    }
+    &-background {
+      background-color: white;
+    }
+    &-logo {
+      width: 100%;
+      color: white;
+    }
+  }
+}
