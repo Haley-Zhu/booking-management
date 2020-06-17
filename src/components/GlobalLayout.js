@@ -1,13 +1,17 @@
 import React, { Component } from "react";
-import { Layout, Menu } from "antd";
+import { Link } from "react-router-dom";
+import { Layout, Menu, Dropdown, Avatar } from "antd";
 import {
   MenuUnfoldOutlined,
   MenuFoldOutlined,
   UserOutlined,
   VideoCameraOutlined,
   UploadOutlined,
+  SettingOutlined,
+  LogoutOutlined,
 } from "@ant-design/icons";
-import logo from '../assets/icons/logo-text.png';
+import logo from "../assets/icons/logo-text.png";
+import defaultAvatarSrc from "../assets/icons/default_avatar.svg";
 
 const { Header, Sider, Content } = Layout;
 
@@ -26,10 +30,26 @@ class GlobalLayout extends Component {
   };
 
   render() {
+    const menu = (
+      <Menu>
+        <Menu.Item key="userinfo" icon={<SettingOutlined />}>
+          Account Setting
+        </Menu.Item>
+        <Menu.Divider />
+        <Menu.Item key="logout" icon={<LogoutOutlined />}>
+          Logout
+        </Menu.Item>
+      </Menu>
+    );
     return (
       <Layout id="global-layout">
-        <Sider className="global-layout__sider" trigger={null} collapsible collapsed={this.state.collapsed}>
-          <div className="global-layout-logo" >
+        <Sider
+          className="global-layout__sider"
+          trigger={null}
+          collapsible
+          collapsed={this.state.collapsed}
+        >
+          <div className="global-layout-logo">
             <img src={logo} alt="logo" />
           </div>
           <Menu theme="dark" mode="inline" defaultSelectedKeys={["1"]}>
@@ -46,13 +66,17 @@ class GlobalLayout extends Component {
         </Sider>
         <Layout className="global-layout__content">
           <Header className="global-layout-background" style={{ padding: 0 }}>
-            {React.createElement(
-              this.state.collapsed ? MenuUnfoldOutlined : MenuFoldOutlined,
-              {
-                className: "trigger",
-                onClick: this.toggle,
-              }
+            {this.state.collapsed ? (
+              <MenuUnfoldOutlined className="trigger" onClick={this.toggle} />
+            ) : (
+              <MenuFoldOutlined className="trigger" onClick={this.toggle} />
             )}
+            <Dropdown overlay={menu}>
+              <Link>
+                <Avatar size="small" src={defaultAvatarSrc} alt="avatar" />
+                <span>username</span>
+              </Link>
+            </Dropdown>
           </Header>
           <Content
             className="global-layout-background"

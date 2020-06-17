@@ -1,13 +1,29 @@
 #global-layout {
   .global-layout {
     &__sider {
+      
     }
     &-background {
       background-color: white;
     }
     &-logo {
-      width: 100%;
-      color: white;
+      text-align: center;
+      overflow: hidden;
+      img {
+        height: 50px;
+      }
+    }
+    &-background {
+      .trigger {
+        font-size: 18px;
+        line-height: 64px;
+        padding: 0 24px;
+        cursor: pointer;
+        transition: color 0.3s;
+      }
+      .trigger:hover {
+        background-color: lightgrey;
+      }
     }
   }
 }
