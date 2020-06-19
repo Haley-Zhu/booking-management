@@ -3,17 +3,27 @@ import { Form, Input, Button, Checkbox } from "antd";
 import { UserOutlined, LockOutlined } from "@ant-design/icons";
 import { Link } from "react-router-dom";
 import { connect } from "react-redux";
-import { actions } from './store'
+import { actions } from "./store";
+import { login as loginFn } from "../../api/auth";
+import { setToken } from "../../utils/auth";
 
 class Login extends Component {
   constructor(props) {
     super(props);
     this.state = {
       isLoading: false,
+      error: null,
     };
   }
   handleFinish = (values) => {
     this.props.saveLoginInfo(values);
+    const { username, password } = values;
+    this.setState({
+      isLoading: true,
+    });
+    loginFn(username, password)
+      .then((token) => setToken(token))
+      .catch((error) => this.setState(error));
   };
   onFinishFailed = (errorInfo) => {
     console.log("errorInfo", errorInfo);
@@ -77,8 +87,8 @@ class Login extends Component {
 
 const mapDispatch = (dispatch) => ({
   saveLoginInfo: (loginInfo) => {
-      dispatch(actions.saveLoginInfo(loginInfo));
-  }
+    dispatch(actions.saveLoginInfo(loginInfo));
+  },
 });
 
-export default connect(null, mapDispatch)(Login)
+export default connect(null, mapDispatch)(Login);
