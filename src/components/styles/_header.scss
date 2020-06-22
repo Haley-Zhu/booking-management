@@ -1,0 +1,11 @@
+.header-username {
+  display: block;
+  height: 100%;
+  padding: 0 20px;
+  &:hover {
+    background-color: lightgrey;
+  }
+  span {
+    margin: 0 4px;
+  }
+}

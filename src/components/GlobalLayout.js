@@ -1,19 +1,16 @@
 import React, { Component } from "react";
-import { Link } from "react-router-dom";
-import { Layout, Menu, Dropdown, Avatar } from "antd";
+import { Layout, Menu } from "antd";
 import {
   MenuUnfoldOutlined,
   MenuFoldOutlined,
   UserOutlined,
   VideoCameraOutlined,
   UploadOutlined,
-  SettingOutlined,
-  LogoutOutlined,
 } from "@ant-design/icons";
 import logo from "../assets/icons/logo-text.png";
-import defaultAvatarSrc from "../assets/icons/default_avatar.svg";
+import HeaderRight from "./HeaderRight";
 
-const { Header, Sider, Content } = Layout;
+const { Header, Sider, Content, Footer } = Layout;
 
 class GlobalLayout extends Component {
   constructor(props) {
@@ -30,17 +27,6 @@ class GlobalLayout extends Component {
   };
 
   render() {
-    const menu = (
-      <Menu>
-        <Menu.Item key="userinfo" icon={<SettingOutlined />}>
-          Account Setting
-        </Menu.Item>
-        <Menu.Divider />
-        <Menu.Item key="logout" icon={<LogoutOutlined />}>
-          Logout
-        </Menu.Item>
-      </Menu>
-    );
     return (
       <Layout id="global-layout">
         <Sider
@@ -64,30 +50,23 @@ class GlobalLayout extends Component {
             </Menu.Item>
           </Menu>
         </Sider>
-        <Layout className="global-layout__content">
-          <Header className="global-layout-background" style={{ padding: 0 }}>
+        <Layout>
+          <Header className="global-layout-background global-layout__header">
             {this.state.collapsed ? (
               <MenuUnfoldOutlined className="trigger" onClick={this.toggle} />
             ) : (
               <MenuFoldOutlined className="trigger" onClick={this.toggle} />
             )}
-            <Dropdown overlay={menu}>
-              <Link>
-                <Avatar size="small" src={defaultAvatarSrc} alt="avatar" />
-                <span>username</span>
-              </Link>
-            </Dropdown>
+            <div className="header--right">
+              <HeaderRight />
+            </div>
           </Header>
-          <Content
-            className="global-layout-background"
-            style={{
-              margin: "24px 16px",
-              padding: 24,
-              minHeight: 280,
-            }}
-          >
+          <Content className="global-layout-background global-layout__content">
             {this.props.children}
           </Content>
+          <Footer className="global-layout__footer">
+            Booking System by ZHU
+          </Footer>
         </Layout>
       </Layout>
     );

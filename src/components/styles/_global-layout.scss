@@ -1,7 +1,7 @@
 #global-layout {
   .global-layout {
     &__sider {
-      
+      min-height: 100vh;
     }
     &-background {
       background-color: white;
@@ -13,17 +13,32 @@
         height: 50px;
       }
     }
-    &-background {
+    &__header {
+      padding: 0;
+      display: flex;
+      justify-content: space-between;
       .trigger {
         font-size: 18px;
         line-height: 64px;
         padding: 0 24px;
         cursor: pointer;
         transition: color 0.3s;
+        &:hover {
+          background-color: lightgrey;
+        }
       }
-      .trigger:hover {
-        background-color: lightgrey;
+      .header--right {
+        margin-right: 24px;
       }
+    }
+    &__content {
+      margin: 24px 16px;
+      padding: 24px;
+      min-height: 280px;
+    }
+    &__footer {
+      text-align: center;
+      height: 6vh;
     }
   }
 }

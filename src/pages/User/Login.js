@@ -16,14 +16,20 @@ class Login extends Component {
     };
   }
   handleFinish = (values) => {
-    this.props.saveLoginInfo(values);
     const { username, password } = values;
     this.setState({
       isLoading: true,
     });
     loginFn(username, password)
-      .then((token) => setToken(token))
-      .catch((error) => this.setState(error));
+      .then((token) => {
+        this.setState({ isLoading: false });
+        setToken(token);
+        this.props.saveLoginInfo(values);
+      })
+      .catch((err) => {
+        this.setState({ isLoading: false });
+        this.setState({ error: err });
+      });
   };
   onFinishFailed = (errorInfo) => {
     console.log("errorInfo", errorInfo);
