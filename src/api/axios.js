@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { getToken } from '../utils/auth';
 
-axios.defaults.baseURL = 'https://jr-cms.herokuapp.com/v1';
+axios.defaults.baseURL = 'http://localhost:4000/v1';
 
 const appendAuthToken = config => {
     const jwtToken = getToken();
