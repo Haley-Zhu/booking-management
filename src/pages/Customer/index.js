@@ -1,13 +1,17 @@
-import React, { Component } from "react";
+import React, { Component, Fragment } from "react";
 import * as customerAPI from "../../api/customer";
 import { DeleteButton, EditButton } from "../../components/Button";
-import { Table, Space } from "antd";
+import InfoModal from "../../components/Modal";
+import { Table, Space, Button } from "antd";
 
 class Customer extends Component {
   constructor() {
     super();
     this.state = {
       customers: [],
+      modalInfo: {},
+      modalType: "",
+      modalVisible: false,
     };
   }
 
@@ -19,8 +23,25 @@ class Customer extends Component {
     );
   }
 
+  handleEdit = (text) => {
+    const { name, email, phone } = text;
+    this.setState({
+      modalType: "update",
+      modalInfo: { name, email, phone },
+      modalVisible: true,
+    });
+  };
+
+  handleDelete = (id) => {
+    this.setState({
+      modalType: "delete",
+      modalVisible: true,
+    });
+  };
+
   render() {
-    const { customers } = this.state;
+    const { customers, modalVisible, modalInfo, modalType } = this.state;
+    // todo: add field for display in backend
     const columns = [
       {
         title: "Name",
@@ -40,10 +61,10 @@ class Customer extends Component {
       {
         title: "Operation",
         key: "operation",
-        render: () => (
+        render: (text) => (
           <Space size="small">
-            <EditButton />
-            <DeleteButton />
+            <EditButton onClick={() => this.handleEdit(text)} />
+            <DeleteButton onClick={() => this.handleDelete(text.id)} />
           </Space>
         ),
       },
@@ -51,12 +72,18 @@ class Customer extends Component {
 
     const data = customers.map((customer) => ({
       key: customer._id,
+      id: customer._id,
       name: customer.name,
       email: customer.email,
       phone: customer.phone,
     }));
 
-    return <Table columns={columns} dataSource={data} />;
+    return (
+      <Fragment>
+        <Table columns={columns} dataSource={data} />
+        <InfoModal data={modalInfo} visible={modalVisible} type={modalType} />
+      </Fragment>
+    );
   }
 }
 
