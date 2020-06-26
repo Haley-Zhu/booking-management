@@ -1,0 +1,1 @@
+export const SET_IS_SHOW_MODAL = 'set_is_show_modal';

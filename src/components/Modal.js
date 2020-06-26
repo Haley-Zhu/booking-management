@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Modal, Form } from "antd";
+import { Modal, Form, Input } from "antd";
 import _ from "lodash";
 
 class InfoModal extends Component {
@@ -34,21 +34,21 @@ class InfoModal extends Component {
 
   render() {
     const { confirmLoading, ModalText, modalKeys } = this.state;
-    const { visible, data, type } = this.props;
+    const { visible, data, type, field } = this.props;
     console.log("qwert", visible, data, type);
     return (
       <Modal
-        title="Title"
+        title={`${type} ${field}`}
         visible={visible}
         onOk={this.handleOk}
+        okText={type}
         confirmLoading={confirmLoading}
         onCancel={this.handleCancel}
       >
         <Form>
           {_.map(data, (item, key) => (
-            <Form.Item>
-              <span>{key}:</span>
-              <span>{item}</span>
+            <Form.Item key={key} name={key} label={key}>
+              <Input value={item}/>
             </Form.Item>
           ))}
         </Form>

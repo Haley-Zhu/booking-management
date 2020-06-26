@@ -81,7 +81,12 @@ class Customer extends Component {
     return (
       <Fragment>
         <Table columns={columns} dataSource={data} />
-        <InfoModal data={modalInfo} visible={modalVisible} type={modalType} />
+        <InfoModal
+          field="Customer"
+          data={modalInfo}
+          visible={modalVisible}
+          type={modalType}
+        />
       </Fragment>
     );
   }
