@@ -2,59 +2,44 @@ import React, { Component } from "react";
 import { Modal, Form, Input } from "antd";
 import _ from "lodash";
 
-class InfoModal extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      ModalText: "Content of the modal",
-      confirmLoading: false,
-      modalKeys: [],
-    };
-  }
-
-  handleOk = () => {
-    this.setState({
-      ModalText: "The modal will be closed after two seconds",
-      confirmLoading: true,
-    });
-    setTimeout(() => {
-      this.setState({
-        visible: false,
-        confirmLoading: false,
-      });
-    }, 2000);
-  };
-
-  handleCancel = () => {
-    console.log("Clicked cancel button");
-    this.setState({
-      visible: false,
-    });
-  };
-
-  render() {
-    const { confirmLoading, ModalText, modalKeys } = this.state;
-    const { visible, data, type, field } = this.props;
-    console.log("qwert", visible, data, type);
-    return (
-      <Modal
-        title={`${type} ${field}`}
-        visible={visible}
-        onOk={this.handleOk}
-        okText={type}
-        confirmLoading={confirmLoading}
-        onCancel={this.handleCancel}
-      >
-        <Form>
-          {_.map(data, (item, key) => (
+function InfoModal(props) {
+  const {
+    data,
+    type,
+    field,
+    visible,
+    confirmLoading,
+    onSubmit,
+    onCancel,
+  } = props;
+  console.log("qwert", visible, data, type, confirmLoading);
+  const [form] = Form.useForm();
+  return (
+    <Modal
+      title={`${type} ${field}`}
+      visible={visible}
+      onOk={() => {
+        form.validateFields().then((values) => {
+          console.log("form value", values);
+          return onSubmit(values);
+        });
+      }}
+      okText={type}
+      confirmLoading={confirmLoading}
+      onCancel={onCancel}
+    >
+      <Form form={form}>
+        {_.map(data, (value, key) => {
+          console.log("test2222222222", value, key);
+          return (
             <Form.Item key={key} name={key} label={key}>
-              <Input value={item}/>
+              <Input initialvalue={value} />
             </Form.Item>
-          ))}
-        </Form>
-      </Modal>
-    );
-  }
+          );
+        })}
+      </Form>
+    </Modal>
+  );
 }
 
 export default InfoModal;

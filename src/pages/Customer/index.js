@@ -2,7 +2,10 @@ import React, { Component, Fragment } from "react";
 import * as customerAPI from "../../api/customer";
 import { DeleteButton, EditButton } from "../../components/Button";
 import InfoModal from "../../components/Modal";
-import { Table, Space, Button } from "antd";
+import { actions } from "./store";
+import { connect } from "react-redux";
+import { Table, Space, Modal } from "antd";
+import { ExclamationCircleOutlined } from '@ant-design/icons';
 
 class Customer extends Component {
   constructor() {
@@ -11,7 +14,6 @@ class Customer extends Component {
       customers: [],
       modalInfo: {},
       modalType: "",
-      modalVisible: false,
     };
   }
 
@@ -28,20 +30,52 @@ class Customer extends Component {
     this.setState({
       modalType: "update",
       modalInfo: { name, email, phone },
-      modalVisible: true,
     });
+    this.props.setIsShowModal(true);
+    console.log('set true');
   };
 
   handleDelete = (id) => {
-    this.setState({
-      modalType: "delete",
-      modalVisible: true,
+    console.log('OK pre', id, this);
+    const { deleteCustomerAsync } = this.props;
+    Modal.confirm({
+      title: 'Are you sure Delete this item?',
+      icon: <ExclamationCircleOutlined />,
+      // content: 'Bla bla ...',
+      okText: 'Yes',
+      okType: 'danger',
+      cancelText: 'No',
+      onOk() {
+        console.log('OK', id);
+        deleteCustomerAsync(id);
+      },
+      onCancel() {
+        console.log('Cancel');
+      },
     });
   };
 
+  handleSubmitModal = (values) => {
+    console.log("Clicked ok button", values);
+    this.props.createCustomerAsync(values);
+  };
+
+  handleCancelModal = () => {
+    console.log("Clicked cancel button");
+    this.props.setIsShowModal(false);
+  };
+
   render() {
-    const { customers, modalVisible, modalInfo, modalType } = this.state;
+    const {
+      customers,
+      modalInfo,
+      modalType,
+      // modalVisible,
+      // modalConfirmLoading,
+    } = this.state;
     // todo: add field for display in backend
+    const { modalVisible, modalConfirmLoading } = this.props;
+    console.log('visible', modalVisible);
     const columns = [
       {
         title: "Name",
@@ -84,12 +118,33 @@ class Customer extends Component {
         <InfoModal
           field="Customer"
           data={modalInfo}
-          visible={modalVisible}
           type={modalType}
+          visible={modalVisible}
+          onSubmit={values => this.handleSubmitModal(values)}
+          onCancel={this.handleCancelModal}
+          confirmLoading={modalConfirmLoading}
         />
+        {/* <DeleteModal /> */}
       </Fragment>
     );
   }
 }
 
-export default Customer;
+const mapState = state => ({
+  modalVisible: state.customerReducer.modalVisible,
+  modalConfirmLoading: state.customerReducer.isLoading
+})
+
+const mapDispatch = (dispatch) => ({
+  setIsShowModal: (isShow) => {
+    dispatch(actions.setIsShowModal(isShow));
+  },
+  createCustomerAsync: (customer) => {
+    dispatch(actions.createCustomerAsync(customer));
+  },
+  deleteCustomerAsync: (id) => {
+    dispatch(actions.deleteCustomerAsync(id));
+  }
+});
+
+export default connect(mapState, mapDispatch)(Customer);

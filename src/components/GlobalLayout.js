@@ -1,11 +1,14 @@
 import React, { Component } from "react";
+import { Link } from "react-router-dom";
 import { Layout, Menu } from "antd";
 import {
   MenuUnfoldOutlined,
   MenuFoldOutlined,
-  UserOutlined,
-  VideoCameraOutlined,
-  UploadOutlined,
+  HomeOutlined,
+  TeamOutlined,
+  ShopOutlined,
+  ProfileOutlined,
+  SwitcherOutlined,
 } from "@ant-design/icons";
 import logo from "../assets/icons/logo-text.png";
 import HeaderRight from "./HeaderRight";
@@ -34,19 +37,28 @@ class GlobalLayout extends Component {
           trigger={null}
           collapsible
           collapsed={this.state.collapsed}
+          breakpoint="lg"
+          onBreakpoint={this.toggle}
+          // collapsedWidth="0"
         >
           <div className="global-layout-logo">
             <img src={logo} alt="logo" />
           </div>
           <Menu theme="dark" mode="inline" defaultSelectedKeys={["1"]}>
-            <Menu.Item key="1" icon={<UserOutlined />}>
-              nav 1
+            <Menu.Item key="home" icon={<HomeOutlined />}>
+              <Link to="/">Home</Link>
             </Menu.Item>
-            <Menu.Item key="2" icon={<VideoCameraOutlined />}>
-              nav 2
+            <Menu.Item key="customers" icon={<TeamOutlined />}>
+              <Link to="/customers">Customer</Link>
             </Menu.Item>
-            <Menu.Item key="3" icon={<UploadOutlined />}>
-              nav 3
+            <Menu.Item key="businesses" icon={<ShopOutlined />}>
+              <Link to="/businesses">Business</Link>
+            </Menu.Item>
+            <Menu.Item key="categorys" icon={<SwitcherOutlined />}>
+              <Link to="/categorys">Category</Link>
+            </Menu.Item>
+            <Menu.Item key="orders" icon={<ProfileOutlined />}>
+              <Link to="/orders">Order</Link>
             </Menu.Item>
           </Menu>
         </Sider>
