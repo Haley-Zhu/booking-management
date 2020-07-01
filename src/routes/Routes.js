@@ -8,13 +8,15 @@ import Order from "../pages/Order/Order";
 import Customer from "../pages/Customer";
 import Business from "../pages/Business";
 import Category from "../pages/Category";
+import Home from "../pages/Home";
 import GlobalLayout from "../components/GlobalLayout";
 
 const Routes = () => {
   return (
     <Switch>
       <GlobalLayout>
-        <Redirect from='/' to="/customers" />
+        <Redirect from='/' to="/home" />
+        <Route exact path="/home" component={Home} />
         <Route exact path="/customers" component={Customer} />
         <Route exact path="/businesses" component={Business} />
         <Route exact path="/Categories" component={Category} />

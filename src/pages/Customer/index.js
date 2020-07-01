@@ -1,6 +1,7 @@
 import React, { Component, Fragment } from "react";
 import * as customerAPI from "../../api/customer";
 import { DeleteButton, EditButton } from "../../components/Button";
+import PageTopBar from '../../components/PageTopBar';
 import InfoModal from "../../components/Modal";
 import { actions } from "./store";
 import { connect } from "react-redux";
@@ -32,8 +33,18 @@ class Customer extends Component {
       modalInfo: { name, email, phone },
     });
     this.props.setIsShowModal(true);
-    console.log('set true');
+    console.log('set update true');
   };
+
+  handleCreate = () => {
+    this.setState({
+      modalType: "create",
+      // todo: about the keys
+      modalInfo:{ name:'', email:'', phone:''}
+    });
+    this.props.setIsShowModal(true);
+    console.log('set create true');
+  }
 
   handleDelete = (id) => {
     console.log('OK pre', id, this);
@@ -114,6 +125,7 @@ class Customer extends Component {
 
     return (
       <Fragment>
+        <PageTopBar field="Customer" onCreate={this.handleCreate}/>
         <Table columns={columns} dataSource={data} />
         <InfoModal
           field="Customer"

@@ -46,7 +46,7 @@ class GlobalLayout extends Component {
           </div>
           <Menu theme="dark" mode="inline" defaultSelectedKeys={["1"]}>
             <Menu.Item key="home" icon={<HomeOutlined />}>
-              <Link to="/">Home</Link>
+              <Link to="/home">Home</Link>
             </Menu.Item>
             <Menu.Item key="customers" icon={<TeamOutlined />}>
               <Link to="/customers">Customer</Link>
@@ -54,8 +54,8 @@ class GlobalLayout extends Component {
             <Menu.Item key="businesses" icon={<ShopOutlined />}>
               <Link to="/businesses">Business</Link>
             </Menu.Item>
-            <Menu.Item key="categorys" icon={<SwitcherOutlined />}>
-              <Link to="/categorys">Category</Link>
+            <Menu.Item key="Categories" icon={<SwitcherOutlined />}>
+              <Link to="/Categories">Category</Link>
             </Menu.Item>
             <Menu.Item key="orders" icon={<ProfileOutlined />}>
               <Link to="/orders">Order</Link>
@@ -73,7 +73,7 @@ class GlobalLayout extends Component {
               <HeaderRight />
             </div>
           </Header>
-          <Content className="global-layout-background global-layout__content">
+          <Content className="global-layout__content">
             {this.props.children}
           </Content>
           <Footer className="global-layout__footer">
