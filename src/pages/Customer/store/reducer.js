@@ -2,7 +2,7 @@ import { actionType } from "./index";
 const initialState = {
   modalVisible: false,
   customerCount: 0,
-  customersList: "",
+  customersList: [],
   errorInfo: "",
   isLoading: false,
 };
@@ -48,7 +48,7 @@ const reducer = (state = initialState, action) => {
     default:
       break;
   }
-  console.log("store", action.type, newState);
+  console.log("store in [Customer reducer]", newState);
   return newState;
 };
 

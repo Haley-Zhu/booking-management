@@ -1,29 +1,24 @@
 import React, { Component, Fragment } from "react";
 import * as customerAPI from "../../api/customer";
 import { DeleteButton, EditButton } from "../../components/Button";
-import PageTopBar from '../../components/PageTopBar';
+import PageTopBar from "../../components/PageTopBar";
 import InfoModal from "../../components/Modal";
 import { actions } from "./store";
 import { connect } from "react-redux";
 import { Table, Space, Modal } from "antd";
-import { ExclamationCircleOutlined } from '@ant-design/icons';
+import { ExclamationCircleOutlined } from "@ant-design/icons";
 
 class Customer extends Component {
   constructor() {
     super();
     this.state = {
-      customers: [],
       modalInfo: {},
       modalType: "",
     };
   }
 
   componentDidMount() {
-    customerAPI.fetchCustomers().then((date) =>
-      this.setState({
-        customers: date,
-      })
-    );
+    this.props.loadCustomersList();
   }
 
   handleEdit = (text) => {
@@ -33,60 +28,54 @@ class Customer extends Component {
       modalInfo: { name, email, phone },
     });
     this.props.setIsShowModal(true);
-    console.log('set update true');
   };
 
   handleCreate = () => {
     this.setState({
       modalType: "create",
       // todo: about the keys
-      modalInfo:{ name:'', email:'', phone:''}
+      modalInfo: { name: "", email: "", phone: "" },
     });
     this.props.setIsShowModal(true);
-    console.log('set create true');
-  }
+  };
 
   handleDelete = (id) => {
-    console.log('OK pre', id, this);
     const { deleteCustomerAsync } = this.props;
     Modal.confirm({
-      title: 'Are you sure Delete this item?',
+      title: "Are you sure Delete this item?",
       icon: <ExclamationCircleOutlined />,
       // content: 'Bla bla ...',
-      okText: 'Yes',
-      okType: 'danger',
-      cancelText: 'No',
+      okText: "Yes",
+      okType: "danger",
+      cancelText: "No",
       onOk() {
-        console.log('OK', id);
         deleteCustomerAsync(id);
       },
       onCancel() {
-        console.log('Cancel');
       },
     });
   };
 
   handleSubmitModal = (values) => {
-    console.log("Clicked ok button", values);
+    console.log('--------------handleSubmitModal');
     this.props.createCustomerAsync(values);
   };
 
   handleCancelModal = () => {
-    console.log("Clicked cancel button");
     this.props.setIsShowModal(false);
   };
 
   render() {
     const {
-      customers,
       modalInfo,
       modalType,
       // modalVisible,
       // modalConfirmLoading,
     } = this.state;
     // todo: add field for display in backend
-    const { modalVisible, modalConfirmLoading } = this.props;
-    console.log('visible', modalVisible);
+    const { modalVisible, modalConfirmLoading, customersList } = this.props;
+    // console.log('customers111', customers);
+    console.log("customersList in [Customer page]", customersList);
     const columns = [
       {
         title: "Name",
@@ -115,7 +104,7 @@ class Customer extends Component {
       },
     ];
 
-    const data = customers.map((customer) => ({
+    const data = customersList.map((customer) => ({
       key: customer._id,
       id: customer._id,
       name: customer.name,
@@ -125,14 +114,14 @@ class Customer extends Component {
 
     return (
       <Fragment>
-        <PageTopBar field="Customer" onCreate={this.handleCreate}/>
+        <PageTopBar field="Customer" onCreate={this.handleCreate} />
         <Table columns={columns} dataSource={data} />
         <InfoModal
           field="Customer"
           data={modalInfo}
           type={modalType}
           visible={modalVisible}
-          onSubmit={values => this.handleSubmitModal(values)}
+          onSubmit={(values) => this.handleSubmitModal(values)}
           onCancel={this.handleCancelModal}
           confirmLoading={modalConfirmLoading}
         />
@@ -142,10 +131,11 @@ class Customer extends Component {
   }
 }
 
-const mapState = state => ({
+const mapState = (state) => ({
   modalVisible: state.customerReducer.modalVisible,
-  modalConfirmLoading: state.customerReducer.isLoading
-})
+  modalConfirmLoading: state.customerReducer.isLoading,
+  customersList: state.customerReducer.customersList,
+});
 
 const mapDispatch = (dispatch) => ({
   setIsShowModal: (isShow) => {
@@ -156,7 +146,10 @@ const mapDispatch = (dispatch) => ({
   },
   deleteCustomerAsync: (id) => {
     dispatch(actions.deleteCustomerAsync(id));
-  }
+  },
+  loadCustomersList: (customers) => {
+    dispatch(actions.loadCustomersList(customers));
+  },
 });
 
 export default connect(mapState, mapDispatch)(Customer);

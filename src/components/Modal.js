@@ -12,7 +12,6 @@ function InfoModal(props) {
     onSubmit,
     onCancel,
   } = props;
-  console.log("qwert", visible, data, type, confirmLoading);
   const [form] = Form.useForm();
   return (
     <Modal
@@ -20,7 +19,6 @@ function InfoModal(props) {
       visible={visible}
       onOk={() => {
         form.validateFields().then((values) => {
-          console.log("form value", values);
           return onSubmit(values);
         });
       }}
@@ -30,7 +28,6 @@ function InfoModal(props) {
     >
       <Form form={form}>
         {_.map(data, (value, key) => {
-          console.log("test2222222222", value, key);
           return (
             <Form.Item key={key} name={key} label={key}>
               <Input initialvalue={value} />
