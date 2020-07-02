@@ -1,4 +1,4 @@
-import { get, post, del }  from './axios';
+import { get, post, del, put }  from './axios';
 // import axios from 'axios';
 const API_CUSTOMER_URL = '/customers'
 const getApiCustomerUrlWithId = id => `${API_CUSTOMER_URL}/${id}`;
@@ -13,6 +13,13 @@ export const fetchCustomers = () => {
 export const createCustomer = (customer) => {
   console.log('--------------createCustomer');
   return post(API_CUSTOMER_URL, customer).then(res => {
+    return res;
+  });
+}
+
+export const updateCustomer = (id, customer) => {
+  console.log('--------------updateCustomer', id, customer);
+  return put(`${API_CUSTOMER_URL}/${id}`, customer).then(res => {
     return res;
   });
 }

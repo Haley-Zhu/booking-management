@@ -14,6 +14,7 @@ class Customer extends Component {
     this.state = {
       modalInfo: {},
       modalType: "",
+      selectedCustomerId: ""
     };
   }
 
@@ -22,10 +23,12 @@ class Customer extends Component {
   }
 
   handleEdit = (text) => {
+    console.log('--------------text', text);
     const { name, email, phone } = text;
     this.setState({
       modalType: "update",
       modalInfo: { name, email, phone },
+      selectedCustomerId: text.id
     });
     this.props.setIsShowModal(true);
   };
@@ -58,6 +61,12 @@ class Customer extends Component {
 
   handleSubmitModal = (values) => {
     console.log('--------------handleSubmitModal');
+    const { modalType, selectedCustomerId } = this.state;
+    if (modalType === "update") {
+      console.log('--------------update', selectedCustomerId, values);
+      this.props.updateCustomerAsync(selectedCustomerId, values);
+      return;
+    }
     this.props.createCustomerAsync(values);
   };
 
@@ -143,6 +152,9 @@ const mapDispatch = (dispatch) => ({
   },
   createCustomerAsync: (customer) => {
     dispatch(actions.createCustomerAsync(customer));
+  },
+  updateCustomerAsync: (id, customer) => {
+    dispatch(actions.updateCustomerAsync(id, customer));
   },
   deleteCustomerAsync: (id) => {
     dispatch(actions.deleteCustomerAsync(id));

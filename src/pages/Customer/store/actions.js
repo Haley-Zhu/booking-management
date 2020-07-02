@@ -1,5 +1,5 @@
 import { actionType } from "./index";
-import { createCustomer, deleteCustomerById, fetchCustomers } from "../../../api/customer";
+import { createCustomer, deleteCustomerById, fetchCustomers, updateCustomer } from "../../../api/customer";
 
 export const setIsShowModal = (modalVisible) => ({
   type: actionType.SET_IS_SHOW_MODAL,
@@ -47,6 +47,27 @@ export const createCustomerAsync = (customer) => {
       })
       .catch((err) => {
         console.log("errorr in [createCustomerAsync]", err.response.data);
+        dispatch(setIsLoading(false));
+        dispatch(setError(err));
+      });
+  };
+};
+
+export const updateCustomerAsync = (id, customer) => {
+  console.log('--------------updateCustomerAsync');
+  return (dispatch) => {
+    dispatch(setError(null));
+    dispatch(setIsLoading(true));
+    updateCustomer(id, customer)
+      .then((res) => {
+        console.log('--------------updateCustomer in updateCustomerAsync', res);
+        dispatch(loadCustomersList());
+        dispatch(setIsShowModal(false));
+        dispatch(setIsLoading(false));
+        console.log('--------------end in loadCustomersList');
+      })
+      .catch((err) => {
+        console.log("errorr in [updateCustomerAsync]", err.response.data);
         dispatch(setIsLoading(false));
         dispatch(setError(err));
       });
