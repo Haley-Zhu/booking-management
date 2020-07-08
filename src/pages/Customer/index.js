@@ -14,7 +14,7 @@ class Customer extends Component {
     this.state = {
       modalInfo: {},
       modalType: "",
-      selectedCustomerId: ""
+      selectedCustomerId: "",
     };
   }
 
@@ -23,12 +23,12 @@ class Customer extends Component {
   }
 
   handleEdit = (text) => {
-    console.log('--------------text', text);
+    console.log("--------------text", text);
     const { name, email, phone } = text;
     this.setState({
       modalType: "update",
       modalInfo: { name, email, phone },
-      selectedCustomerId: text.id
+      selectedCustomerId: text.id,
     });
     this.props.setIsShowModal(true);
   };
@@ -54,16 +54,15 @@ class Customer extends Component {
       onOk() {
         deleteCustomerAsync(id);
       },
-      onCancel() {
-      },
+      onCancel() {},
     });
   };
 
   handleSubmitModal = (values) => {
-    console.log('--------------handleSubmitModal');
+    console.log("--------------handleSubmitModal");
     const { modalType, selectedCustomerId } = this.state;
     if (modalType === "update") {
-      console.log('--------------update', selectedCustomerId, values);
+      console.log("--------------update", selectedCustomerId, values);
       this.props.updateCustomerAsync(selectedCustomerId, values);
       return;
     }
@@ -72,6 +71,18 @@ class Customer extends Component {
 
   handleCancelModal = () => {
     this.props.setIsShowModal(false);
+  };
+
+  handleSearch = (value) => {
+    console.log("--------------handleSearch", value);
+    this.props.searchByFilterAsync({searchValue: value});
+  };
+
+  onValuesChange = (changedValue) => {
+    console.log("--------------onValuesChange", changedValue);
+    this.setState({
+      modalInfo: { ...this.state.modalInfo, ...changedValue },
+    });
   };
 
   render() {
@@ -123,7 +134,11 @@ class Customer extends Component {
 
     return (
       <Fragment>
-        <PageTopBar field="Customer" onCreate={this.handleCreate} />
+        <PageTopBar
+          field="Customer"
+          onCreate={this.handleCreate}
+          onSearch={this.handleSearch}
+        />
         <Table columns={columns} dataSource={data} />
         <InfoModal
           field="Customer"
@@ -133,6 +148,7 @@ class Customer extends Component {
           onSubmit={(values) => this.handleSubmitModal(values)}
           onCancel={this.handleCancelModal}
           confirmLoading={modalConfirmLoading}
+          onValuesChange={this.onValuesChange}
         />
         {/* <DeleteModal /> */}
       </Fragment>
@@ -161,6 +177,9 @@ const mapDispatch = (dispatch) => ({
   },
   loadCustomersList: (customers) => {
     dispatch(actions.loadCustomersList(customers));
+  },
+  searchByFilterAsync: (condition) => {
+    dispatch(actions.searchByFilterAsync(condition));
   },
 });
 

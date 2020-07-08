@@ -1,5 +1,5 @@
 import { actionType } from "./index";
-import { createCustomer, deleteCustomerById, fetchCustomers, updateCustomer } from "../../../api/customer";
+import { createCustomer, deleteCustomerById, fetchCustomers, updateCustomer, fetchCustomersByFliter } from "../../../api/customer";
 
 export const setIsShowModal = (modalVisible) => ({
   type: actionType.SET_IS_SHOW_MODAL,
@@ -29,6 +29,26 @@ export const loadCustomersList = () => {
       console.log('--------------dispatch setCustomersList');
       dispatch(setCustomersList(data));
     });
+  }
+}
+
+export const searchByFilterAsync = searchCondition => {
+  console.log('--------------searchByFilterAsync');
+  return dispatch => {
+      dispatch(setError(null));
+      dispatch(setIsLoading(true));
+      fetchCustomersByFliter(searchCondition)
+          .then(data => {
+            console.log('--------------createCustomer in searchByFilterAsync');
+            console.log('--------------dispatch setCustomersList data:', data);
+            dispatch(setCustomersList(data));
+            dispatch(setIsLoading(false));
+            console.log('--------------end in searchByFilterAsync');
+          })
+          .catch(err => {
+              dispatch(setIsLoading(false));
+              dispatch(setError(err));
+          })
   }
 }
 

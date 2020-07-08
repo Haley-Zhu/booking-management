@@ -9,14 +9,15 @@ const options = [
 ];
 class SearchWithType extends Component {
   render() {
+    const { onSearch } = this.props;
     return (
       <div className="search-container">
         <Input.Group compact>
-          <Select className="select" defaultValue="test1">
-            <Option value="test1">Test1</Option>
-            <Option value="test2">Test2</Option>
+          <Select className="select" defaultValue="Search All">
+            <Option value="searchAll">Search All</Option>
+            <Option value="searchName">Search by name</Option>
           </Select>
-          <Input.Search className="search" placeholder="Input keyword" />
+          <Input.Search className="search" placeholder="Input keyword" onSearch={(value) => onSearch(value)} />
         </Input.Group>
       </div>
     );

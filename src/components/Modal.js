@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React from "react";
 import { Modal, Form, Input } from "antd";
 import _ from "lodash";
 
@@ -11,6 +11,7 @@ function InfoModal(props) {
     confirmLoading,
     onSubmit,
     onCancel,
+    onValuesChange,
   } = props;
   const [form] = Form.useForm();
   return (
@@ -26,11 +27,24 @@ function InfoModal(props) {
       confirmLoading={confirmLoading}
       onCancel={onCancel}
     >
-      <Form form={form}>
+      <Form
+        form={form}
+        onValuesChange={(changedValue) => onValuesChange(changedValue)}
+      >
         {_.map(data, (value, key) => {
+          console.log(
+            "----------------InfoModal key:",
+            key,
+            "value:",
+            value,
+            typeof value
+          );
+          form.setFieldsValue({
+            [key]: value,
+          });
           return (
             <Form.Item key={key} name={key} label={key}>
-              <Input initialvalue={value} />
+              <Input />
             </Form.Item>
           );
         })}

@@ -10,6 +10,15 @@ export const fetchCustomers = () => {
   })
 }
 
+export function fetchCustomersByFliter(searchCondition) {
+  const { searchValue } = searchCondition;
+  console.log('--------------fetchCustomersByFliter', searchValue);
+  return get(API_CUSTOMER_URL, { params: {searchValue}}).then(res => {
+    console.log('--------------fetchCustomersByFliter, res.data:', res.data);
+    return res.data;
+  })
+}
+
 export const createCustomer = (customer) => {
   console.log('--------------createCustomer');
   return post(API_CUSTOMER_URL, customer).then(res => {
