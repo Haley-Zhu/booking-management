@@ -33,7 +33,7 @@ export const loadCustomersList = () => {
 }
 
 export const searchByFilterAsync = searchCondition => {
-  console.log('--------------searchByFilterAsync');
+  console.log('--------------searchByFilterAsync searchCondition:', searchCondition);
   return dispatch => {
       dispatch(setError(null));
       dispatch(setIsLoading(true));

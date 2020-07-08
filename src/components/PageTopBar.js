@@ -5,7 +5,7 @@ import SearchWithType from "./Search";
 
 class PageTopBar extends Component {
   render() {
-    const { field, onCreate, onSearch } = this.props;
+    const { field, onCreate, onSearch, onSelectChange, searchList } = this.props;
     return (
       <div className="page-topbar">
         <Row gutter={24}>
@@ -16,7 +16,7 @@ class PageTopBar extends Component {
           </Col>
           <Col xl={18} lg={18} md={18} sm={24} xs={24}>
             <Card className="topbar-card">
-              <SearchWithType onSearch={onSearch} />
+              <SearchWithType onSearch={onSearch} onChange={onSelectChange} searchList={searchList}/>
             </Card>
           </Col>
         </Row>

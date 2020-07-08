@@ -1,5 +1,4 @@
 import React, { Component, Fragment } from "react";
-import * as customerAPI from "../../api/customer";
 import { DeleteButton, EditButton } from "../../components/Button";
 import PageTopBar from "../../components/PageTopBar";
 import InfoModal from "../../components/Modal";
@@ -7,6 +6,7 @@ import { actions } from "./store";
 import { connect } from "react-redux";
 import { Table, Space, Modal } from "antd";
 import { ExclamationCircleOutlined } from "@ant-design/icons";
+import {SEARCH_ALL, CUSTOMER_SEARCH_LIST} from '../../utils/constants';
 
 class Customer extends Component {
   constructor() {
@@ -15,6 +15,7 @@ class Customer extends Component {
       modalInfo: {},
       modalType: "",
       selectedCustomerId: "",
+      searchField: SEARCH_ALL,
     };
   }
 
@@ -75,8 +76,16 @@ class Customer extends Component {
 
   handleSearch = (value) => {
     console.log("--------------handleSearch", value);
-    this.props.searchByFilterAsync({searchValue: value});
+    const { searchField } = this.state;
+    this.props.searchByFilterAsync({searchValue: value, searchField});
   };
+
+  handleSelectChange = (value) => {
+    console.log("--------------handleSelectChange", value);
+    this.setState({
+      searchField: value
+    })
+  }
 
   onValuesChange = (changedValue) => {
     console.log("--------------onValuesChange", changedValue);
@@ -138,6 +147,8 @@ class Customer extends Component {
           field="Customer"
           onCreate={this.handleCreate}
           onSearch={this.handleSearch}
+          onSelectChange = {this.handleSelectChange}
+          searchList = {CUSTOMER_SEARCH_LIST}
         />
         <Table columns={columns} dataSource={data} />
         <InfoModal
