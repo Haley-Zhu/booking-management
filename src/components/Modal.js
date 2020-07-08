@@ -28,6 +28,7 @@ function InfoModal(props) {
       onCancel={onCancel}
     >
       <Form
+      className='modal-form'
         form={form}
         onValuesChange={(changedValue) => onValuesChange(changedValue)}
       >
