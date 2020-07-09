@@ -1,4 +1,5 @@
 import { get, post, del, put }  from './axios';
+import { SEARCH_ALL } from '../utils/constants';
 // import axios from 'axios';
 const API_CUSTOMER_URL = '/customers'
 const getApiCustomerUrlWithId = id => `${API_CUSTOMER_URL}/${id}`;
@@ -10,7 +11,7 @@ export const fetchCustomers = () => {
   })
 }
 
-export function fetchCustomersByFliter(searchCondition) {
+export function fetchCustomersByFliter(searchCondition = { searchField: {SEARCH_ALL} }) {
   const { searchValue, searchField } = searchCondition;
   console.log('--------------fetchCustomersByFliter', searchValue, searchField);
   return get(API_CUSTOMER_URL, { params: {searchValue, searchField}}).then(res => {

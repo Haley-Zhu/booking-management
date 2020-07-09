@@ -20,7 +20,7 @@ class HeaderRight extends Component {
         <Menu.Item key="userinfo" icon={<SettingOutlined />}>
           <Link to='/account/setting/base'>Account Setting</Link>
         </Menu.Item>
-        <Menu.Item key="userinfo" icon={<SettingOutlined />}>
+        <Menu.Item key="changepassword" icon={<SettingOutlined />}>
           <Link to='/account/setting/security'>Change Password</Link>
         </Menu.Item>
         <Menu.Divider />

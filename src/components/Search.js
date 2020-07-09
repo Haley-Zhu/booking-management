@@ -1,12 +1,9 @@
 import React, { Component } from "react";
 import { Input, Select } from "antd";
+import { SEARCH_ALL } from '../utils/constants';
 
 // const { Search } = Input;
 const { Option } = Select;
-const options = [
-  { value: "searchAll", label: "Search All" },
-  { value: "option2", label: "Search by" },
-];
 class SearchWithType extends Component {
   render() {
     const { onSearch, onChange, searchList } = this.props;
@@ -18,7 +15,7 @@ class SearchWithType extends Component {
             defaultValue="Search All"
             onChange={(value) => onChange(value)}
           >
-            <Option value="searchAll">Search All</Option>
+            <Option value={SEARCH_ALL}>Search All</Option>
             {searchList &&
               searchList.map((item) => (
                 <Option key={item} value={item}>
