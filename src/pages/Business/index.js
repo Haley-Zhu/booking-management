@@ -152,6 +152,13 @@ class Business extends Component {
       ...business,
     }));
 
+    const paginationProps = {
+      defaultPageSize: 5,
+      showSizeChanger: true,
+      showQuickJumper: true,
+      pageSizeOptions: ["5", "10", "20"],
+    };
+
     return (
       <Fragment>
         <PageTopBar
@@ -161,7 +168,11 @@ class Business extends Component {
           onSelectChange={this.handleSelectChange}
           searchList={BUSINESS_SEARCH_LIST}
         />
-        <Table columns={columns} dataSource={data} />
+        <Table
+          columns={columns}
+          dataSource={data}
+          pagination={paginationProps}
+        />
         <InfoModal
           field="Business"
           data={modalInfo}

@@ -6,7 +6,7 @@ import { actions } from "./store";
 import { connect } from "react-redux";
 import { Table, Space, Modal } from "antd";
 import { ExclamationCircleOutlined } from "@ant-design/icons";
-import {SEARCH_ALL, CUSTOMER_SEARCH_LIST} from '../../utils/constants';
+import { SEARCH_ALL, CUSTOMER_SEARCH_LIST } from "../../utils/constants";
 
 class Customer extends Component {
   constructor() {
@@ -77,15 +77,15 @@ class Customer extends Component {
   handleSearch = (value) => {
     console.log("--------------handleSearch", value);
     const { searchField } = this.state;
-    this.props.searchByFilterAsync({searchValue: value, searchField});
+    this.props.searchByFilterAsync({ searchValue: value, searchField });
   };
 
   handleSelectChange = (value) => {
     console.log("--------------handleSelectChange", value);
     this.setState({
-      searchField: value
-    })
-  }
+      searchField: value,
+    });
+  };
 
   onValuesChange = (changedValue) => {
     console.log("--------------onValuesChange", changedValue);
@@ -136,10 +136,15 @@ class Customer extends Component {
     const data = customersList.map((customer) => ({
       key: customer._id,
       id: customer._id,
-      name: customer.name,
-      email: customer.email,
-      phone: customer.phone,
+      ...customer,
     }));
+
+    const paginationProps = {
+      defaultPageSize: 5,
+      showSizeChanger: true,
+      showQuickJumper: true,
+      pageSizeOptions: ["5", "10", "20"],
+    };
 
     return (
       <Fragment>
@@ -147,10 +152,14 @@ class Customer extends Component {
           field="Customer"
           onCreate={this.handleCreate}
           onSearch={this.handleSearch}
-          onSelectChange = {this.handleSelectChange}
-          searchList = {CUSTOMER_SEARCH_LIST}
+          onSelectChange={this.handleSelectChange}
+          searchList={CUSTOMER_SEARCH_LIST}
         />
-        <Table columns={columns} dataSource={data} />
+        <Table
+          columns={columns}
+          dataSource={data}
+          pagination={paginationProps}
+        />
         <InfoModal
           field="Customer"
           data={modalInfo}
