@@ -4,7 +4,7 @@ import Login from "../pages/User/Login";
 import AccountSetting from "../pages/User/AccountSetting";
 import PasswordSetting from "../pages/User/PasswordSetting";
 import Signup from "../pages/User/Signup";
-import Order from "../pages/Order/Order";
+import Order from "../pages/Order";
 import Customer from "../pages/Customer";
 import Business from "../pages/Business";
 import Category from "../pages/Category";
