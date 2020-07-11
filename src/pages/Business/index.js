@@ -20,7 +20,7 @@ class Business extends Component {
   }
 
   componentDidMount() {
-    this.props.loadBusinesssList();
+    this.props.loadBusinessesList();
   }
 
   handleEdit = (text) => {
@@ -208,8 +208,8 @@ const mapDispatch = (dispatch) => ({
   deleteBusinessAsync: (id) => {
     dispatch(actions.deleteBusinessAsync(id));
   },
-  loadBusinesssList: (businesses) => {
-    dispatch(actions.loadBusinesssList(businesses));
+  loadBusinessesList: (businesses) => {
+    dispatch(actions.loadBusinessesList(businesses));
   },
   searchByFilterAsync: (condition) => {
     dispatch(actions.searchByFilterAsync(condition));

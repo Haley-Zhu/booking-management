@@ -1,4 +1,5 @@
 import React, { Component, Fragment } from "react";
+import { Link } from "react-router-dom";
 import { DeleteButton, EditButton } from "../../components/Button";
 import PageTopBar from "../../components/PageTopBar";
 import InfoModal from "../../components/Modal";
@@ -25,25 +26,29 @@ class Order extends Component {
 
   handleEdit = (text) => {
     console.log("--------------text", text);
-    const { serviceName, description } = text;
+    const { date, customer, business, category } = text;
     this.setState({
       modalType: "update",
-      modalInfo: { serviceName, description },
+      modalInfo: { date, customer, business, category },
       selectedOrderId: text.id,
     });
     this.props.setIsShowModal(true);
   };
 
   handleCreate = () => {
-    this.setState({
-      modalType: "create",
-      // todo: about the keys
-      modalInfo: {
-        serviceName: "",
-        description: "",
-      },
-    });
-    this.props.setIsShowModal(true);
+    // this.setState({
+    //   modalType: "create",
+    //   // todo: about the keys
+    //   modalInfo: {
+    //     date: "",
+    //     customer: "",
+    //     business: "",
+    //     category: "",
+    //   },
+    // });
+    // this.props.setIsShowModal(true);
+    const { history } = this.props;
+    history.push('/orders/create');
   };
 
   handleDelete = (id) => {
@@ -111,14 +116,24 @@ class Order extends Component {
     console.log("ordersList in [Order page]", ordersList);
     const columns = [
       {
-        title: "Service",
-        dataIndex: "serviceName",
-        key: "serviceName",
+        title: "Order Date",
+        dataIndex: "date",
+        key: "date",
       },
       {
-        title: "Description",
-        dataIndex: "description",
-        key: "description",
+        title: "Customer",
+        dataIndex: "customer",
+        key: "customer",
+      },
+      {
+        title: "Besiness",
+        dataIndex: "besiness",
+        key: "besiness",
+      },
+      {
+        title: "Category",
+        dataIndex: "category",
+        key: "category",
       },
       {
         title: "Operation",

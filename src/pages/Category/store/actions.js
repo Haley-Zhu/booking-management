@@ -16,18 +16,18 @@ export const setError = (errorInfo) => ({
   errorInfo,
 });
 
-export const setCategorysList = (categoriesList) => ({
+export const setCategoriesList = (categoriesList) => ({
   type: actionType.SET_CATEGORIES_LIST,
   // categoryCount,
   categoriesList,
 });
 
-export const loadCategorysList = () => {
-  console.log('--------------loadCategorysList');
+export const loadCategoriesList = () => {
+  console.log('--------------loadCategoriesList');
   return (dispatch) => {
     fetchCategories().then((data) => {
-      console.log('--------------dispatch setCategorysList');
-      dispatch(setCategorysList(data));
+      console.log('--------------dispatch setCategoriesList');
+      dispatch(setCategoriesList(data));
     });
   }
 }
@@ -40,8 +40,8 @@ export const searchByFilterAsync = searchCondition => {
       fetchCategoriesByFliter(searchCondition)
           .then(data => {
             console.log('--------------createCategory in searchByFilterAsync');
-            console.log('--------------dispatch setCategorysList data:', data);
-            dispatch(setCategorysList(data));
+            console.log('--------------dispatch setCategoriesList data:', data);
+            dispatch(setCategoriesList(data));
             dispatch(setIsLoading(false));
             console.log('--------------end in searchByFilterAsync');
           })
@@ -60,10 +60,10 @@ export const createCategoryAsync = (category) => {
     createCategory(category)
       .then((res) => {
         console.log('--------------createCategory in createCategoryAsync');
-        dispatch(loadCategorysList());
+        dispatch(loadCategoriesList());
         dispatch(setIsShowModal(false));
         dispatch(setIsLoading(false));
-        console.log('--------------end in loadCategorysList');
+        console.log('--------------end in loadCategoriesList');
       })
       .catch((err) => {
         console.log("errorr in [createCategoryAsync]", err.response.data);
@@ -81,10 +81,10 @@ export const updateCategoryAsync = (id, category) => {
     updateCategory(id, category)
       .then((res) => {
         console.log('--------------updateCategory in updateCategoryAsync', res);
-        dispatch(loadCategorysList());
+        dispatch(loadCategoriesList());
         dispatch(setIsShowModal(false));
         dispatch(setIsLoading(false));
-        console.log('--------------end in loadCategorysList');
+        console.log('--------------end in loadCategoriesList');
       })
       .catch((err) => {
         console.log("errorr in [updateCategoryAsync]", err.response.data);
@@ -100,7 +100,7 @@ export const deleteCategoryAsync = (id) => {
       dispatch(setIsLoading(true));
       deleteCategoryById(id)
       .then((res) => {
-        dispatch(loadCategorysList());
+        dispatch(loadCategoriesList());
         dispatch(setIsShowModal(false));
         dispatch(setIsLoading(false));
       })

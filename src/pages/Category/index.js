@@ -20,7 +20,7 @@ class Category extends Component {
   }
 
   componentDidMount() {
-    this.props.loadCategorysList();
+    this.props.loadCategoriesList();
   }
 
   handleEdit = (text) => {
@@ -194,8 +194,8 @@ const mapDispatch = (dispatch) => ({
   deleteCategoryAsync: (id) => {
     dispatch(actions.deleteCategoryAsync(id));
   },
-  loadCategorysList: (categories) => {
-    dispatch(actions.loadCategorysList(categories));
+  loadCategoriesList: (categories) => {
+    dispatch(actions.loadCategoriesList(categories));
   },
   searchByFilterAsync: (condition) => {
     dispatch(actions.searchByFilterAsync(condition));

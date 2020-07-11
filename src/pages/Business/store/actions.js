@@ -16,18 +16,18 @@ export const setError = (errorInfo) => ({
   errorInfo,
 });
 
-export const setBusinesssList = (businessesList) => ({
+export const setBusinessesList = (businessesList) => ({
   type: actionType.SET_BUSINESSES_LIST,
   // businessCount,
   businessesList,
 });
 
-export const loadBusinesssList = () => {
-  console.log('--------------loadBusinesssList');
+export const loadBusinessesList = () => {
+  console.log('--------------loadBusinessesList');
   return (dispatch) => {
     fetchBusinesses().then((data) => {
-      console.log('--------------dispatch setBusinesssList');
-      dispatch(setBusinesssList(data));
+      console.log('--------------dispatch setBusinessesList');
+      dispatch(setBusinessesList(data));
     });
   }
 }
@@ -40,8 +40,8 @@ export const searchByFilterAsync = searchCondition => {
       fetchBusinessesByFliter(searchCondition)
           .then(data => {
             console.log('--------------createBusiness in searchByFilterAsync');
-            console.log('--------------dispatch setBusinesssList data:', data);
-            dispatch(setBusinesssList(data));
+            console.log('--------------dispatch setBusinessesList data:', data);
+            dispatch(setBusinessesList(data));
             dispatch(setIsLoading(false));
             console.log('--------------end in searchByFilterAsync');
           })
@@ -60,10 +60,10 @@ export const createBusinessAsync = (business) => {
     createBusiness(business)
       .then((res) => {
         console.log('--------------createBusiness in createBusinessAsync');
-        dispatch(loadBusinesssList());
+        dispatch(loadBusinessesList());
         dispatch(setIsShowModal(false));
         dispatch(setIsLoading(false));
-        console.log('--------------end in loadBusinesssList');
+        console.log('--------------end in loadBusinessesList');
       })
       .catch((err) => {
         console.log("errorr in [createBusinessAsync]", err.response.data);
@@ -81,10 +81,10 @@ export const updateBusinessAsync = (id, business) => {
     updateBusiness(id, business)
       .then((res) => {
         console.log('--------------updateBusiness in updateBusinessAsync', res);
-        dispatch(loadBusinesssList());
+        dispatch(loadBusinessesList());
         dispatch(setIsShowModal(false));
         dispatch(setIsLoading(false));
-        console.log('--------------end in loadBusinesssList');
+        console.log('--------------end in loadBusinessesList');
       })
       .catch((err) => {
         console.log("errorr in [updateBusinessAsync]", err.response.data);
@@ -100,7 +100,7 @@ export const deleteBusinessAsync = (id) => {
       dispatch(setIsLoading(true));
       deleteBusinessById(id)
       .then((res) => {
-        dispatch(loadBusinesssList());
+        dispatch(loadBusinessesList());
         dispatch(setIsShowModal(false));
         dispatch(setIsLoading(false));
       })
