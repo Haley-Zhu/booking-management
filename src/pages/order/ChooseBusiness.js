@@ -5,10 +5,12 @@ import { connect } from "react-redux";
 
 class ChooseBusiness extends Component {
   componentDidMount() {
-    this.props.loadBusinessesList();
+    const { loadBusinessesList, isButtonDisable } = this.props;
+    loadBusinessesList();
+    isButtonDisable(true);
   }
   render() {
-    const { businessesList, onSelect } = this.props;
+    const { businessesList, onSelect, isButtonDisable } = this.props;
     console.log("businessesList in [ChooseBusiness page]", businessesList);
     const columns = [
       {
@@ -51,6 +53,7 @@ class ChooseBusiness extends Component {
         const selectedItem = { businessId: selectedRowKeys[0]}
         console.log(`selectedItem:`, selectedItem )
         onSelect(selectedItem);
+        isButtonDisable(!selectedItem);
       },
       // getCheckboxProps: record => ({
       //   disabled: record.name === 'Disabled User',

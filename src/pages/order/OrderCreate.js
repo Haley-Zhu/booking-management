@@ -11,7 +11,8 @@ class OrderCreate extends Component {
     super();
     this.state = {
       currentStep: 0,
-      selectedSet: {}
+      selectedSet: {},
+      nextBtnDisable: true
     }
   }
 
@@ -34,47 +35,28 @@ class OrderCreate extends Component {
       }
     })
   }
-  isButtonDisable = () => {
-    console.log('----IsButtonDisable start----------------');
-    const { currentStep, selectedSet} = this.state;
-    let disable = true;
-    console.log("----IsButtonDisable initail value", disable);
-    switch (currentStep) {
-      case 0:
-        disable = !selectedSet.customerId;
-        break;
-      case 1:
-        disable = !selectedSet.categoryId;
-        break;
-      case 2:
-        disable = !selectedSet.businessId;
-        break;
-      case 3:
-        disable = !selectedSet.customerId;
-        break;
-      default:
-        break;
-    }
-    console.log('----IsButtonDisable', disable);
-    return disable;
+  isButtonDisable = (isDisable) => {
+    this.setState({
+      nextBtnDisable: isDisable
+    })
   }
 
 
   render() {
-    const { currentStep, selectedSet } = this.state;
+    const { currentStep, selectedSet, nextBtnDisable } = this.state;
     
     const steps = [
       {
         title: 'Choose Customer',
-        content: <ChooseCustomer onSelect={this.handleSelect}/>,
+        content: <ChooseCustomer onSelect={this.handleSelect} isButtonDisable={this.isButtonDisable} />,
       },
       {
         title: 'Choose Service',
-        content: <ChooseCategory onSelect={this.handleSelect}/>,
+        content: <ChooseCategory onSelect={this.handleSelect} isButtonDisable={this.isButtonDisable}/>,
       },
       {
         title: 'Choose Business',
-        content: <ChooseBusiness onSelect={this.handleSelect}/>,
+        content: <ChooseBusiness onSelect={this.handleSelect} isButtonDisable={this.isButtonDisable}/>,
       },
       {
         title: 'Confirm Order',
@@ -92,7 +74,7 @@ class OrderCreate extends Component {
         <div className="steps-content">{steps[currentStep].content}</div>
         <div className="steps-action">
           {currentStep < steps.length - 1 && (
-            <Button type="primary" disabled={this.isButtonDisable()} onClick={() => this.next()}>
+            <Button type="primary" disabled={nextBtnDisable} onClick={() => this.next()}>
               Next
             </Button>
           )}

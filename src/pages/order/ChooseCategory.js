@@ -5,10 +5,12 @@ import { connect } from "react-redux";
 
 class ChooseCategory extends Component {
   componentDidMount() {
-    this.props.loadCategoriesList();
+    const { loadCategoriesList, isButtonDisable } = this.props;
+    loadCategoriesList();
+    isButtonDisable(true);
   }
   render() {
-    const { categoriesList, onSelect } = this.props;
+    const { categoriesList, onSelect, isButtonDisable } = this.props;
     console.log("categoriesList in [ChooseCategory page]", categoriesList);
     const columns = [
       {
@@ -41,6 +43,7 @@ class ChooseCategory extends Component {
         const selectedItem = { categoryId: selectedRowKeys[0]}
         console.log(`selectedItem:`, selectedItem )
         onSelect(selectedItem);
+        isButtonDisable(!selectedItem);
       },
       // getCheckboxProps: record => ({
       //   disabled: record.name === 'Disabled User',
