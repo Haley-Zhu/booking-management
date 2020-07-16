@@ -20,6 +20,13 @@ export function fetchBusinessesByFliter(searchCondition = { searchField: {SEARCH
   })
 }
 
+export function fetchBusinessesByCategoryId(categoryId) {
+  console.log('-------------- fetchBusinessesByCategory', categoryId);
+  return get(`${API_BUSINESS_URL}/categories/${categoryId}`).then(res => {
+    console.log('--------------fetchBusinessesByCategory, res.data:', res.data);
+  })
+}
+
 export const createBusiness = (business) => {
   console.log('--------------createBusiness');
   return post(API_BUSINESS_URL, business).then(res => {

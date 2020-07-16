@@ -33,7 +33,8 @@ class OrderCreate extends Component {
         ...selectedSet,
         ...value
       }
-    })
+    }, () => {console.log('----handleSelect, callback selectedSet: ', this.state.selectedSet);})
+    console.log('----handleSelect, NOT selectedSet: ', this.state.selectedSet);
   }
   isButtonDisable = (isDisable) => {
     this.setState({
@@ -56,7 +57,7 @@ class OrderCreate extends Component {
       },
       {
         title: 'Choose Business',
-        content: <ChooseBusiness onSelect={this.handleSelect} isButtonDisable={this.isButtonDisable}/>,
+        content: <ChooseBusiness onSelect={this.handleSelect} isButtonDisable={this.isButtonDisable} selectedSet={selectedSet}/>,
       },
       {
         title: 'Confirm Order',

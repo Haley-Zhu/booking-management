@@ -46,6 +46,7 @@ class Business extends Component {
         ABN: "",
         postcode: "",
         state: "",
+        // categories: []
       },
     });
     this.props.setIsShowModal(true);

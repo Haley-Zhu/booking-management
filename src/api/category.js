@@ -7,6 +7,7 @@ const getApiCategoryUrlWithId = id => `${API_CATEGORY_URL}/${id}`;
 export const fetchCategories = () => {
   console.log('--------------fetchCategories');
   return get(API_CATEGORY_URL).then(res => {
+    console.log('--------------fetchCategories, ret.data', res.data);
     return res.data;
   })
 }

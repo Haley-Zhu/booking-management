@@ -5,8 +5,10 @@ import { connect } from "react-redux";
 
 class ChooseBusiness extends Component {
   componentDidMount() {
-    const { loadBusinessesList, isButtonDisable } = this.props;
-    loadBusinessesList();
+    const { loadBusinessesListByCategory, isButtonDisable, selectedSet } = this.props;
+    if (selectedSet.categoryId) {
+      loadBusinessesListByCategory(selectedSet.categoryId);
+    }
     isButtonDisable(true);
   }
   render() {
@@ -71,8 +73,8 @@ const mapState = (state) => ({
 });
 
 const mapDispatch = (dispatch) => ({
-  loadBusinessesList: (businesses) => {
-    dispatch(actions.loadBusinessesList(businesses));
+  loadBusinessesListByCategory: (categoryId) => {
+    dispatch(actions.loadBusinessesListByCategory(categoryId));
   },
   searchByFilterAsync: (condition) => {
     dispatch(actions.searchByFilterAsync(condition));

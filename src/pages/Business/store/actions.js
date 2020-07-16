@@ -1,5 +1,5 @@
 import { actionType } from "./index";
-import { createBusiness, deleteBusinessById, fetchBusinesses, updateBusiness, fetchBusinessesByFliter } from "../../../api/business";
+import { createBusiness, deleteBusinessById, fetchBusinesses, updateBusiness, fetchBusinessesByFliter, fetchBusinessesByCategoryId } from "../../../api/business";
 
 export const setIsShowModal = (modalVisible) => ({
   type: actionType.SET_IS_SHOW_MODAL,
@@ -29,6 +29,13 @@ export const loadBusinessesList = () => {
       console.log('--------------dispatch setBusinessesList');
       dispatch(setBusinessesList(data));
     });
+  }
+}
+
+export const loadBusinessesListByCategory = (categoryId) => {
+  console.log('--------------loadBusinessesList categoryId: ', categoryId);
+  return (dispatch) => {
+    fetchBusinessesByCategoryId(categoryId);
   }
 }
 
