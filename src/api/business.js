@@ -28,7 +28,7 @@ export function fetchBusinessesByCategoryId(categoryId) {
 }
 
 export const createBusiness = (business) => {
-  console.log('--------------createBusiness');
+  console.log('--------------createBusiness, business:', business);
   return post(API_BUSINESS_URL, business).then(res => {
     return res;
   });

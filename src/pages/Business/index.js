@@ -3,11 +3,15 @@ import { DeleteButton, EditButton } from "../../components/Button";
 import PageTopBar from "../../components/PageTopBar";
 import InfoModal from "../../components/Modal";
 import { actions } from "./store";
+import { actions as categoryActions} from "../Category/store";
 import { connect } from "react-redux";
-import { Table, Space, Modal } from "antd";
+import { Table, Space, Modal, Select } from "antd";
 import { ExclamationCircleOutlined } from "@ant-design/icons";
 import { SEARCH_ALL, BUSINESS_SEARCH_LIST } from "../../utils/constants";
+import { fetchCategories } from "../../api/category";
 
+const { Option } = Select;
+const FIELD = 'Business';
 class Business extends Component {
   constructor() {
     super();
@@ -16,11 +20,13 @@ class Business extends Component {
       modalType: "",
       selectedBusinessId: "",
       searchField: SEARCH_ALL,
+      refList:[]
     };
   }
 
   componentDidMount() {
     this.props.loadBusinessesList();
+    this.props.loadCategoriesList();
   }
 
   handleEdit = (text) => {
@@ -35,6 +41,7 @@ class Business extends Component {
   };
 
   handleCreate = () => {
+    this.props.loadCategoriesList();
     this.setState({
       modalType: "create",
       // todo: about the keys
@@ -46,11 +53,33 @@ class Business extends Component {
         ABN: "",
         postcode: "",
         state: "",
-        // categories: []
+        categories: [],
       },
+      refList: this.props.categoriesList,
     });
     this.props.setIsShowModal(true);
   };
+  // selectCategoriesOption = () => {
+  //   let arrayOption = [];
+  //   fetchCategories().then((data) => {
+  //     arrayOption = data.map(item => {
+  //        const { serviceName } = item;
+  //        console.log('11111111111111selectOption, field:', field,"serviceName: ", serviceName);
+  //        return<Option key={serviceName}>{serviceName}</Option>;
+  //      })
+  //      return arrayOption;
+  //    });
+
+  //     // fetchBusinesses().then((data) => {
+  //     //   arrayOption = data.map(item => {
+  //     //     const { name } = item;
+  //     //     console.log('2222222222222selectOption, field:', field,"name: ", name);
+  //     //     return<Option key={name}>{name}</Option>;
+  //     //   })
+  //     //   return arrayOption;
+  //     // });
+  //   }
+  // };
 
   handleDelete = (id) => {
     const { deleteBusinessAsync } = this.props;
@@ -107,6 +136,7 @@ class Business extends Component {
     const {
       modalInfo,
       modalType,
+      refList
       // modalVisible,
       // modalConfirmLoading,
     } = this.state;
@@ -163,7 +193,7 @@ class Business extends Component {
     return (
       <Fragment>
         <PageTopBar
-          field="Business"
+          field={FIELD}
           onCreate={this.handleCreate}
           onSearch={this.handleSearch}
           onSelectChange={this.handleSelectChange}
@@ -175,9 +205,10 @@ class Business extends Component {
           pagination={paginationProps}
         />
         <InfoModal
-          field="Business"
+          field={FIELD}
           data={modalInfo}
           type={modalType}
+          refList={refList}
           visible={modalVisible}
           onSubmit={(values) => this.handleSubmitModal(values)}
           onCancel={this.handleCancelModal}
@@ -194,6 +225,7 @@ const mapState = (state) => ({
   modalVisible: state.businessReducer.modalVisible,
   modalConfirmLoading: state.businessReducer.isLoading,
   businessesList: state.businessReducer.businessesList,
+  categoriesList: state.categoryReducer.categoriesList,
 });
 
 const mapDispatch = (dispatch) => ({
@@ -214,6 +246,9 @@ const mapDispatch = (dispatch) => ({
   },
   searchByFilterAsync: (condition) => {
     dispatch(actions.searchByFilterAsync(condition));
+  },
+  loadCategoriesList: (categories) => {
+    dispatch(categoryActions.loadCategoriesList(categories));
   },
 });
 
