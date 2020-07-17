@@ -1,0 +1,12 @@
+.business {
+  .category-items{
+    // width: 50%;
+    &__label {
+      text-align: center;
+    }
+    &__select {
+      width: 80%;
+      min-width: 200px;
+    }
+  }
+}

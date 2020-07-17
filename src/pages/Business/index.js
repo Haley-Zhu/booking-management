@@ -3,7 +3,7 @@ import { DeleteButton, EditButton } from "../../components/Button";
 import PageTopBar from "../../components/PageTopBar";
 import InfoModal from "../../components/Modal";
 import { actions } from "./store";
-import { actions as categoryActions} from "../Category/store";
+import { actions as categoryActions } from "../Category/store";
 import { connect } from "react-redux";
 import { Table, Space, Modal, Select } from "antd";
 import { ExclamationCircleOutlined } from "@ant-design/icons";
@@ -11,7 +11,7 @@ import { SEARCH_ALL, BUSINESS_SEARCH_LIST } from "../../utils/constants";
 import { fetchCategories } from "../../api/category";
 
 const { Option } = Select;
-const FIELD = 'Business';
+const FIELD = "Business";
 class Business extends Component {
   constructor() {
     super();
@@ -20,7 +20,6 @@ class Business extends Component {
       modalType: "",
       selectedBusinessId: "",
       searchField: SEARCH_ALL,
-      refList:[]
     };
   }
 
@@ -41,7 +40,6 @@ class Business extends Component {
   };
 
   handleCreate = () => {
-    this.props.loadCategoriesList();
     this.setState({
       modalType: "create",
       // todo: about the keys
@@ -53,9 +51,7 @@ class Business extends Component {
         ABN: "",
         postcode: "",
         state: "",
-        categories: [],
       },
-      refList: this.props.categoriesList,
     });
     this.props.setIsShowModal(true);
   };
@@ -132,11 +128,58 @@ class Business extends Component {
     });
   };
 
+  categoriesSelectOption = () => {
+    let arrayOption = this.props.categoriesList.map((item) => {
+      const { serviceName } = item;
+      console.log(
+        "11111111111111 categoriesSelectOption, serviceName: ",
+        serviceName
+      );
+      return (
+        <Option key={item._id} value={item._id}>
+          {serviceName}
+        </Option>
+      );
+    });
+    console.log(
+      "11111111111111 categoriesSelectOption, arrayOption: ",
+      arrayOption
+    );
+    return arrayOption;
+  };
+
+  handleCategorySelect = (businessId, categoryId) => {
+    console.log(
+      "------------- handleCategorySelect, businessId, categoryId: ",
+      businessId,
+      categoryId
+    );
+    this.props.addCategorytoBusinessAysc(businessId, categoryId);
+  };
+
+  handleCategoryDeselect = (businessId, categoryId) => {
+    console.log(
+      "------------- handleCategoryDeselect, businessId, categoryId: ",
+      businessId,
+      categoryId
+    );
+    this.props.deleteCategoryFromBusinessAync(businessId, categoryId);
+  };
+
+  getLableValuesOfCategories = (categories) => {
+    let nameList = [];
+    nameList = categories.map((item) => ({
+      key: item._id,
+      label: item.serviceName,
+      value: item._id,
+    }));
+    return nameList;
+  };
+
   render() {
     const {
       modalInfo,
       modalType,
-      refList
       // modalVisible,
       // modalConfirmLoading,
     } = this.state;
@@ -191,7 +234,7 @@ class Business extends Component {
     };
 
     return (
-      <Fragment>
+      <div className="business">
         <PageTopBar
           field={FIELD}
           onCreate={this.handleCreate}
@@ -203,12 +246,43 @@ class Business extends Component {
           columns={columns}
           dataSource={data}
           pagination={paginationProps}
+          expandable={{
+            expandedRowRender: (record) => {
+              const { categories } = record;
+              console.log("@@@@@@@@@@@ categories:", categories, "serviceName");
+              return (
+                <Space size="middle" className="category-items">
+                  <p className="category-items__label">Categories:</p>
+                  <Select
+                    labelInValue
+                    mode="multiple"
+                    className="category-items__select"
+                    size="small"
+                    // tagRender={<p>dfdsfaf</p>}
+                    // defaultValue={categories.length !== 0? this.getNamesOfCategories(categories) : undefined}
+                    value={
+                      categories.length !== 0
+                        ? this.getLableValuesOfCategories(categories)
+                        : undefined
+                    }
+                    onSelect={(value) =>
+                      this.handleCategorySelect(record._id, value.key)
+                    }
+                    onDeselect={(value) =>
+                      this.handleCategoryDeselect(record._id, value.key)
+                    }
+                  >
+                    {this.categoriesSelectOption()}
+                  </Select>
+                </Space>
+              );
+            },
+          }}
         />
         <InfoModal
           field={FIELD}
           data={modalInfo}
           type={modalType}
-          refList={refList}
           visible={modalVisible}
           onSubmit={(values) => this.handleSubmitModal(values)}
           onCancel={this.handleCancelModal}
@@ -216,7 +290,7 @@ class Business extends Component {
           onValuesChange={this.onValuesChange}
         />
         {/* <DeleteModal /> */}
-      </Fragment>
+      </div>
     );
   }
 }
@@ -246,6 +320,12 @@ const mapDispatch = (dispatch) => ({
   },
   searchByFilterAsync: (condition) => {
     dispatch(actions.searchByFilterAsync(condition));
+  },
+  addCategorytoBusinessAysc: (businessId, categoryId) => {
+    dispatch(actions.addCategorytoBusinessAysc(businessId, categoryId));
+  },
+  deleteCategoryFromBusinessAync: (businessId, categoryId) => {
+    dispatch(actions.deleteCategoryFromBusinessAync(businessId, categoryId));
   },
   loadCategoriesList: (categories) => {
     dispatch(categoryActions.loadCategoriesList(categories));
