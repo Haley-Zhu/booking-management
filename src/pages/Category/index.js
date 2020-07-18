@@ -132,11 +132,14 @@ class Category extends Component {
       },
     ];
 
-    const data = categoriesList.map((category) => ({
-      key: category._id,
-      id: category._id,
-      ...category,
-    }));
+    const data = categoriesList.map((category) => {
+      console.log('~~~~~~~~~~~~~~item:~~~~~~~~~~', category);
+      return ({
+        key: category._id,
+        id: category._id,
+        ...category,
+      })
+    });
 
     const paginationProps = {
       defaultPageSize: 5,

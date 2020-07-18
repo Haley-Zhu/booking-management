@@ -21,7 +21,7 @@ export function fetchOrdersByFliter(searchCondition = { searchField: {SEARCH_ALL
 }
 
 export const createOrder = (order) => {
-  console.log('--------------createOrder');
+  console.log('--------------createOrder', order);
   return post(API_ORDER_URL, order).then(res => {
     return res;
   });

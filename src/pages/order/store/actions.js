@@ -1,5 +1,6 @@
 import { actionType } from "./index";
 import { createOrder, deleteOrderById, fetchOrders, updateOrder, fetchOrdersByFliter } from "../../../api/order";
+import { message } from "antd";
 
 export const setIsShowModal = (modalVisible) => ({
   type: actionType.SET_IS_SHOW_MODAL,
@@ -61,14 +62,16 @@ export const createOrderAsync = (order) => {
       .then((res) => {
         console.log('--------------createOrder in createOrderAsync');
         dispatch(loadOrdersList());
-        dispatch(setIsShowModal(false));
+        // dispatch(setIsShowModal(false));
         dispatch(setIsLoading(false));
+        message.success("A new order has been succefully created.");
         console.log('--------------end in loadOrdersList');
       })
       .catch((err) => {
         console.log("errorr in [createOrderAsync]", err.response.data);
         dispatch(setIsLoading(false));
         dispatch(setError(err));
+        message.error(`Create order failed. [${err.response.data}]`);
       });
   };
 };

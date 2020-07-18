@@ -4,6 +4,15 @@ import { SEARCH_ALL } from '../utils/constants';
 const API_CATEGORY_URL = '/categories'
 const getApiCategoryUrlWithId = id => `${API_CATEGORY_URL}/${id}`;
 
+export const fetchCategoryById = (id) => {
+  console.log("--------------fetchCategoryById: ", id);
+  const url = getApiCategoryUrlWithId(id);
+  return get(url).then((res) => {
+    console.log("--------------fetchCategoryById: res.data", res.data);
+    return res.data;
+  });
+};
+
 export const fetchCategories = () => {
   console.log('--------------fetchCategories');
   return get(API_CATEGORY_URL).then(res => {

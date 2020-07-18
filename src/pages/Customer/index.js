@@ -67,7 +67,7 @@ class Customer extends Component {
       this.props.updateCustomerAsync(selectedCustomerId, values);
       return;
     }
-    this.props.createCustomerAsync(values);
+    this.props.createCustomerAsync(values)
   };
 
   handleCancelModal = () => {

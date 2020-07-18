@@ -45,7 +45,10 @@ export const loadBusinessesList = () => {
 export const loadBusinessesListByCategory = (categoryId) => {
   console.log("--------------loadBusinessesList categoryId: ", categoryId);
   return (dispatch) => {
-    fetchBusinessesByCategoryId(categoryId);
+    fetchBusinessesByCategoryId(categoryId).then(data => {
+      console.log("--------------dispatch setBusinessesList");
+      dispatch(setBusinessesList(data));
+    })
   };
 };
 

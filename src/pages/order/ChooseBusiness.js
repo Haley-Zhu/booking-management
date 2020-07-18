@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Table, Button } from "antd";
+import { Table } from "antd";
 import { actions } from "../Business/store";
 import { connect } from "react-redux";
 
@@ -34,6 +34,11 @@ class ChooseBusiness extends Component {
         title: "Postcode",
         dataIndex: "postcode",
         key: "postcode",
+      },
+      {
+        title: "Rate",
+        dataIndex: "rate",
+        key: "rate",
       },
     ];
     const data = businessesList.map((business) => ({

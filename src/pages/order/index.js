@@ -1,5 +1,4 @@
 import React, { Component, Fragment } from "react";
-import { Link } from "react-router-dom";
 import { DeleteButton, EditButton } from "../../components/Button";
 import PageTopBar from "../../components/PageTopBar";
 import InfoModal from "../../components/Modal";
@@ -8,6 +7,7 @@ import { connect } from "react-redux";
 import { Table, Space, Modal } from "antd";
 import { ExclamationCircleOutlined } from "@ant-design/icons";
 import { SEARCH_ALL, ORDER_SEARCH_LIST } from "../../utils/constants";
+import { getLocalDateAndTime } from '../../utils/dateTransform';
 
 class Order extends Component {
   constructor() {
@@ -36,17 +36,6 @@ class Order extends Component {
   };
 
   handleCreate = () => {
-    // this.setState({
-    //   modalType: "create",
-    //   // todo: about the keys
-    //   modalInfo: {
-    //     date: "",
-    //     customer: "",
-    //     business: "",
-    //     category: "",
-    //   },
-    // });
-    // this.props.setIsShowModal(true);
     const { history } = this.props;
     history.push('/orders/create');
   };
@@ -126,9 +115,9 @@ class Order extends Component {
         key: "customer",
       },
       {
-        title: "Besiness",
-        dataIndex: "besiness",
-        key: "besiness",
+        title: "Business",
+        dataIndex: "business",
+        key: "business",
       },
       {
         title: "Category",
@@ -147,11 +136,21 @@ class Order extends Component {
       },
     ];
 
-    const data = ordersList.map((order) => ({
-      key: order._id,
-      id: order._id,
-      ...order,
-    }));
+    const data = ordersList.map((order) => {
+      console.log('~~~~~~~~~~~~~~item:~~~~~~~~~~', order);
+      console.log('~~~~~~~~~~~~~~item:~~~ customer', order.customer.name);
+      console.log('~~~~~~~~~~~~~~item:~~~ business', order.business.name);
+      console.log('~~~~~~~~~~~~~~item:~~~ category', order.category.serviceName);
+      return ({
+        ...order,
+        key: order._id,
+        id: order._id,
+        customer: order.customer.name,
+        business: order.business.name,
+        category: order.category.serviceName,
+        date: getLocalDateAndTime(order.createdAt),
+      })
+    });
 
     const paginationProps = {
       defaultPageSize: 5,

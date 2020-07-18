@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Table, Button } from "antd";
+import { Table } from "antd";
 import { actions } from "../Customer/store";
 import { connect } from "react-redux";
 

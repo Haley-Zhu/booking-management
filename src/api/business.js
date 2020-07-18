@@ -8,6 +8,7 @@ export const fetchBusinessById = (id) => {
   console.log("--------------fetchBusinessById: ", id);
   const url = getApiBusinessUrlWithId(id);
   return get(url).then((res) => {
+    console.log("--------------fetchBusinessById: res.data", res.data);
     return res.data;
   });
 };
@@ -40,6 +41,7 @@ export function fetchBusinessesByCategoryId(categoryId) {
   console.log("-------------- fetchBusinessesByCategory", categoryId);
   return get(`${API_BUSINESS_URL}/categories/${categoryId}`).then((res) => {
     console.log("--------------fetchBusinessesByCategory, res.data:", res.data);
+    return res.data;
   });
 }
 

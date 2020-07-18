@@ -4,6 +4,15 @@ import { SEARCH_ALL } from '../utils/constants';
 const API_CUSTOMER_URL = '/customers'
 const getApiCustomerUrlWithId = id => `${API_CUSTOMER_URL}/${id}`;
 
+export const fetchCustomerById = (id) => {
+  console.log("--------------fetchCustomerById: ", id);
+  const url = getApiCustomerUrlWithId(id);
+  return get(url).then((res) => {
+    console.log("--------------fetchCustomerById: res.data", res.data);
+    return res.data;
+  });
+};
+
 export const fetchCustomers = () => {
   console.log('--------------fetchCustomers');
   return get(API_CUSTOMER_URL).then(res => {
