@@ -1,5 +1,5 @@
 import React, { Component, Fragment } from "react";
-import { DeleteButton, EditButton } from "../../components/Button";
+import { DeleteButton } from "../../components/Button";
 import PageTopBar from "../../components/PageTopBar";
 import InfoModal from "../../components/Modal";
 import { actions } from "./store";
@@ -13,9 +13,6 @@ class Order extends Component {
   constructor() {
     super();
     this.state = {
-      modalInfo: {},
-      modalType: "",
-      selectedOrderId: "",
       searchField: SEARCH_ALL,
     };
   }
@@ -24,16 +21,6 @@ class Order extends Component {
     this.props.loadOrdersList();
   }
 
-  handleEdit = (text) => {
-    console.log("--------------text", text);
-    const { date, customer, business, category } = text;
-    this.setState({
-      modalType: "update",
-      modalInfo: { date, customer, business, category },
-      selectedOrderId: text.id,
-    });
-    this.props.setIsShowModal(true);
-  };
 
   handleCreate = () => {
     const { history } = this.props;
@@ -56,20 +43,6 @@ class Order extends Component {
     });
   };
 
-  handleSubmitModal = (values) => {
-    console.log("--------------handleSubmitModal");
-    const { modalType, selectedOrderId } = this.state;
-    if (modalType === "update") {
-      console.log("--------------update", selectedOrderId, values);
-      this.props.updateOrderAsync(selectedOrderId, values);
-      return;
-    }
-    this.props.createOrderAsync(values);
-  };
-
-  handleCancelModal = () => {
-    this.props.setIsShowModal(false);
-  };
 
   handleSearch = (value) => {
     console.log("--------------handleSearch", value);
@@ -84,23 +57,8 @@ class Order extends Component {
     });
   };
 
-  onValuesChange = (changedValue) => {
-    console.log("--------------onValuesChange", changedValue);
-    this.setState({
-      modalInfo: { ...this.state.modalInfo, ...changedValue },
-    });
-  };
-
   render() {
-    const {
-      modalInfo,
-      modalType,
-      // modalVisible,
-      // modalConfirmLoading,
-      // pageSize,
-    } = this.state;
-    // todo: add field for display in backend
-    const { modalVisible, modalConfirmLoading, ordersList } = this.props;
+    const {  ordersList } = this.props;
     // console.log('orders111', orders);
     console.log("ordersList in [Order page]", ordersList);
     const columns = [
@@ -128,19 +86,13 @@ class Order extends Component {
         title: "Operation",
         key: "operation",
         render: (text) => (
-          <Space size="small">
-            <EditButton onClick={() => this.handleEdit(text)} />
+
             <DeleteButton onClick={() => this.handleDelete(text.id)} />
-          </Space>
         ),
       },
     ];
 
     const data = ordersList.map((order) => {
-      console.log('~~~~~~~~~~~~~~item:~~~~~~~~~~', order);
-      console.log('~~~~~~~~~~~~~~item:~~~ customer', order.customer.name);
-      console.log('~~~~~~~~~~~~~~item:~~~ business', order.business.name);
-      console.log('~~~~~~~~~~~~~~item:~~~ category', order.category.serviceName);
       return ({
         ...order,
         key: order._id,
@@ -173,17 +125,6 @@ class Order extends Component {
           dataSource={data}
           pagination={paginationProps}
         />
-        <InfoModal
-          field="Order"
-          data={modalInfo}
-          type={modalType}
-          visible={modalVisible}
-          onSubmit={(values) => this.handleSubmitModal(values)}
-          onCancel={this.handleCancelModal}
-          confirmLoading={modalConfirmLoading}
-          onValuesChange={this.onValuesChange}
-        />
-        {/* <DeleteModal /> */}
       </Fragment>
     );
   }
